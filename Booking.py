@@ -1,3 +1,17 @@
+import urllib.request
+
+# URL of the file to download
+url = 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb'
+
+# Local path to save the downloaded file
+local_file_path = '/tmp/google-chrome-stable_current_amd64.deb'
+
+# Download the file
+urllib.request.urlretrieve(url, local_file_path)
+
+
+
+
 import csv
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -8,6 +22,8 @@ from datetime import datetime, timedelta
 import pandas as pd
 
 def scrape_page(driver):
+
+    
     wait = WebDriverWait(driver,1500 )
     wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="basiclayout"]/div/div/div[2]/div/div/div/div/div[2]/div[3]/div[1]')))
     
@@ -57,10 +73,18 @@ def scrape_page(driver):
     return flights_list
 
 def main():
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--incognito")
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument("--no-sandbox")
     
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(
+        options=options
+    )
+    #chrome_options = webdriver.ChromeOptions()
+    #chrome_options.add_argument("--incognito")
+    
+    #driver = webdriver.Chrome(options=chrome_options)
     
     base_url = 'https://flights.booking.com/flights/LHR.AIRPORT-AMS.AIRPORT/?type=MULTISTOP&adults=1&cabinClass=ECONOMY&children=&from=LHR.AIRPORT&to=AMS.AIRPORT&fromCountry=GB&toCountry=NL&fromLocationName=London+Heathrow+Airport&toLocationName=Schiphol+Airport&multiStopDates=2024-04-06&sort=BEST&travelPurpose=leisure&aid=304142&label=gen173nr-1FCAEoggI46AdIM1gEaDuIAQGYAQm4AQfIAQzYAQHoAQH4AQyIAgGoAgO4AqfHya0GwAIB0gIkOTQ3NjI5OTktNDk1MC00NzBiLThkZTYtM2Y2M2JmNjhiOTNi2AIG4AIB&airlines=EI%2CAC%2CAF%2COS%2CBA%2CSN%2CEK%2C9F%2CAY%2CAZ%2CIB%2CLO%2CLH%2CKM%2CDY%2CD8%2CQR%2CSK%2CLX%2CTP%2CTK%2CUA'
     
